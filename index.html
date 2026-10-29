@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>四年 · 我的养成看板</title>
+<style>
+:root{
+  --bg:#0e1220; --bg2:#161c31; --card:#1b2340; --card2:#212a4a;
+  --ink:#eaf0ff; --ink2:#98a4c9; --line:#2c3763;
+  --gold:#f5c451; --pink:#ff6f9c; --blue:#5b9dff; --green:#3ddc97;
+  --purple:#a78bfa; --red:#ff6b6b;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#1b2547 0%,var(--bg) 55%);
+  color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  padding:14px 12px 28px;max-width:520px;margin:0 auto}
+.hd{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.ava{width:56px;height:56px;border-radius:16px;flex:0 0 auto;
+  background:linear-gradient(135deg,#f5c451,#ff6f9c);display:grid;place-items:center;
+  font-size:26px;box-shadow:0 6px 18px rgba(245,196,81,.28)}
+.who{flex:1;min-width:0}
+.name{font-size:17px;font-weight:800;letter-spacing:.5px}
+.sub{font-size:11.5px;color:var(--ink2);margin-top:3px}
+.lv{font-size:11px;padding:3px 9px;border-radius:99px;background:rgba(245,196,81,.16);
+  color:var(--gold);border:1px solid rgba(245,196,81,.4);font-weight:700}
+
+.xp{margin:4px 0 16px}
+.xpbar{height:9px;border-radius:99px;background:#0a0f1e;overflow:hidden;border:1px solid var(--line)}
+.xpfill{height:100%;width:12%;border-radius:99px;
+  background:linear-gradient(90deg,var(--blue),var(--purple));box-shadow:0 0 12px rgba(91,157,255,.6)}
+.xptxt{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink2);margin-top:5px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.stat b{display:block;font-size:19px;letter-spacing:.5px}
+.stat span{font-size:10.5px;color:var(--ink2)}
+.stat.g b{color:var(--gold)} .stat.p b{color:var(--pink)}
+.stat.b b{color:var(--blue)} .stat.gr b{color:var(--green)}
+
+h3{font-size:14.5px;margin:18px 0 9px;display:flex;align-items:center;gap:7px}
+h3 .tag{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:6px;
+  background:rgba(91,157,255,.18);color:var(--blue)}
+h3 .tag.d{background:rgba(61,220,151,.16);color:var(--green)}
+h3 .tag.l{background:rgba(255,111,156,.16);color:var(--pink)}
+h3 .tag.r{background:rgba(255,107,107,.16);color:var(--red)}
+
+.task{display:flex;gap:11px;align-items:flex-start;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:9px;transition:.18s}
+.task:active{transform:scale(.985)}
+.cb{width:22px;height:22px;flex:0 0 auto;border-radius:7px;border:2px solid #3a4778;
+  display:grid;place-items:center;font-size:13px;color:transparent;margin-top:1px}
+.task.done .cb{background:linear-gradient(135deg,var(--green),#26b87c);border-color:transparent;color:#062018}
+.task.done .t1{color:var(--ink2);text-decoration:line-through}
+.t1{font-size:14px;font-weight:700}
+.t2{font-size:11px;color:var(--ink2);margin-top:3px;line-height:1.5}
+.rw{font-size:10px;margin-top:6px;color:var(--gold)}
+
+.bar{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:12px;margin-bottom:9px}
+.bar .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:16px;flex:0 0 auto}
+.bar .mid{flex:1;min-width:0}
+.bar .l1{font-size:13.5px;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.bar .l1 em{font-style:normal;font-size:10.5px;color:var(--ink2);font-weight:600}
+.pb{height:6px;border-radius:99px;background:#0a0f1e;margin-top:7px;overflow:hidden}
+.pf{height:100%;border-radius:99px}
+
+.ev{background:linear-gradient(135deg,#241f3f,#1b2340);border:1px solid #3b2f66;
+  border-radius:14px;padding:12px;margin-bottom:9px;position:relative;overflow:hidden}
+.ev::after{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle,rgba(167,139,250,.35),transparent 70%)}
+.ev .e1{font-size:13.5px;font-weight:800;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ev .pill{font-size:9.5px;padding:2px 7px;border-radius:6px;background:rgba(255,107,107,.2);
+  color:#ff9c9c;font-weight:700}
+.ev .pill.g{background:rgba(61,220,151,.18);color:var(--green)}
+.ev .e2{font-size:11px;color:var(--ink2);margin-top:6px;line-height:1.55}
+
+.foot{font-size:10px;color:#5d689a;line-height:1.6;margin-top:18px;
+  border-top:1px dashed var(--line);padding-top:12px}
+.streak{display:flex;justify-content:space-between;align-items:center;background:var(--card2);
+  border-radius:14px;padding:11px 13px;margin-top:4px;border:1px solid var(--line)}
+.streak b{color:var(--gold);font-size:16px}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="ava">🎓</div>
+  <div class="who">
+    <div class="name">邓明豪 · 电科 2026</div>
+    <div class="sub">华南理工大学 · 大学城 · 大一第 1 学期</div>
+  </div>
+  <div class="lv">第 9 周</div>
+</div>
+
+<div class="xp">
+  <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
+  <div class="xptxt"><span>进度 0 / 166 学分</span><span id="xppct">0%</span></div>
+</div>
+
+<div class="grid2">
+  <div class="stat g"><b>67 天</b><span>距考试周（1/4）</span></div>
+  <div class="stat p"><b>9 周</b><span>教学周还剩（到 12/31）</span></div>
+  <div class="stat b"><b>20 学分</b><span>本学期在修</span></div>
+  <div class="stat gr"><b>0 挂科</b><span>首次考核红线</span></div>
+</div>
+
+<h3>每日任务 <span class="tag d">重置 05:00</span></h3>
+<div id="daily"></div>
+
+<h3>每周任务 <span class="tag">周一重置</span></h3>
+<div id="weekly"></div>
+
+<h3>常驻活动 · 主线 <span class="tag l">四年</span></h3>
+<div id="main"></div>
+
+<h3>限时活动 <span class="tag r">倒计时</span></h3>
+<div id="events"></div>
+
+<div class="streak">
+  <span style="font-size:12px;color:var(--ink2)">连续打卡</span>
+  <span><b id="streak">0</b> <span style="font-size:11px;color:var(--ink2)">天</span></span>
+</div>
+
+<div class="foot">
+数据来源：教务系统培养树（166 学分 / 73 门）· 教学执行计划 5 页逐门转录 · 2026-2027 第 1 学期真实课表 · 官方校历 ·《2026 本科生手册》推免办法。<br>
+凡校方未公开的（推免名额、四级大一报考资格、各课成绩构成）均标为待确认，不做假设。
+</div>
+
+<script>
+const DAILY = [
+  ["微积分 · 当天消化 45min", "5 学分、占绩点权重 25%，是全学期最关键的一门", "+12 XP"],
+  ["C++ 动手敲 30min", "只看不敲等于没学，本周要有能跑的小程序", "+10 XP"],
+  ["线性代数 30min", "3 学分，期末前必须把矩阵运算练成肌肉记忆", "+8 XP"],
+  ["英语词汇 15min", "CET-4 目标 ≥500，靠每天磨", "+5 XP"],
+  ["习概 / 导论 轻量 15min", "低权重课，放在低能量时段，保住及格即可", "+4 XP"]
+];
+const WEEKLY = [
+  ["本周作业清零", "8 门课的作业当天交，别攒到周末", "+40 XP"],
+  ["周末 2h 微积分复盘", "第 9–12 周是补欠账的窗口", "+30 XP"],
+  ["去 1 次实验室 / 社团", "大一下要进组，现在先混脸熟", "+25 XP"],
+  ["周日 10min 复盘下周课表", "周四两段空档（1.58h + 2.58h）是唯一工作日大块", "+15 XP"]
+];
+const MAIN = [
+  ["保研主线", "目标 均分≥80 · 挂科记 0 不可挽回", 0, 100, "var(--pink)", "🏆"],
+  ["英语主线", "目标 CET-4 ≥500（大一能否报考待确认）", 0, 500, "var(--blue)", "📘"],
+  ["科研主线", "科研潜质 10%：大创 / 电赛 / 专利 / 一作", 0, 1, "var(--purple)", "🔬"],
+  ["学分主线", "166 学分 / 73 门", 0, 166, "var(--gold)", "📜"]
+];
+const EVENTS = [
+  ["考试周", "1 月 4 日 – 1 月 17 日", "W19–W20 · 8 门课全部第一次考核", "剩 67 天", true],
+  ["四级报名（待确认）", "大一能否报考未定", "去教务处考试中心确认；能考就冲 12 月场", "待确认", false],
+  ["寒假集训窗口", "1/18 – 2/28（6 周）", "六级 / 竞赛 / 项目集中期，别整段放空", "剩 81 天", true],
+  ["大创申报", "2027 年秋季（大二上）", "科研主线的起点，需要提前找导师", "长期", false]
+];
+
+const KEY = "planner-2026-10-29";
+let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+function mkTask(id, arr){
+  const el = document.createElement("div");
+  el.className = "task" + (state[id] ? " done" : "");
+  el.innerHTML = `<div class="cb">✓</div><div style="flex:1">
+      <div class="t1">${arr[0]}</div><div class="t2">${arr[1]}</div>
+      <div class="rw">${arr[2]}</div></div>`;
+  el.onclick = () => {
+    state[id] = !state[id];
+    localStorage.setItem(KEY, JSON.stringify(state));
+    el.classList.toggle("done"); render();
+  };
+  return el;
+}
+DAILY.forEach((t,i)=>document.getElementById("daily").appendChild(mkTask("d"+i,t)));
+WEEKLY.forEach((t,i)=>document.getElementById("weekly").appendChild(mkTask("w"+i,t)));
+
+MAIN.forEach(([name,desc,cur,max,color,ic])=>{
+  const pct = Math.round(cur/max*100);
+  const d = document.createElement("div");
+  d.className="bar";
+  d.innerHTML = `<div class="ic" style="background:${color}22;color:${color}">${ic}</div>
+    <div class="mid"><div class="l1"><span>${name}</span><em>${cur}/${max}</em></div>
+    <div class="t2" style="margin-top:2px">${desc}</div>
+    <div class="pb"><div class="pf" style="width:${pct}%;background:${color}"></div></div></div>`;
+  document.getElementById("main").appendChild(d);
+});
+
+EVENTS.forEach(([name,time,desc,left,hot])=>{
+  const d = document.createElement("div");
+  d.className="ev";
+  d.innerHTML = `<div class="e1">${name}<span class="pill${hot?'':' g'}">${left}</span></div>
+    <div class="t2" style="margin-top:3px;color:#b6b2e8">${time}</div>
+    <div class="e2">${desc}</div>`;
+  document.getElementById("events").appendChild(d);
+});
+
+function render(){
+  const done = Object.values(state).filter(Boolean).length;
+  const total = DAILY.length + WEEKLY.length;
+  const pct = Math.round(done/total*100);
+  document.getElementById("xpfill").style.width = Math.max(6,pct) + "%";
+  document.getElementById("xppct").textContent = pct + "%";
+  document.getElementById("streak").textContent = done ? "1" : "0";
+}
+render();
+</script>
+</body>
+</html>
+
+
